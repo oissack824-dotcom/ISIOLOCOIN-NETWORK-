@@ -15,6 +15,7 @@ declare global {
 }
 
 const POLYGON_CHAIN_ID = "0x89";
+const REFERENCE_PRICE_USD = Number(process.env.NEXT_PUBLIC_ISIOLO_PRICE_USD ?? "17");
 const POLYGON_NETWORK = {
   chainId: POLYGON_CHAIN_ID,
   chainName: "Polygon",
@@ -162,6 +163,12 @@ export default function Home() {
           A user-first web experience for wallet access, network switching, and future token and DeFi integrations.
           This foundation is built for trust, interoperability, and clean deployment to production.
         </p>
+
+        <div className="price-panel" aria-label="Reference price target">
+          <div className="price-label">Reference target price</div>
+          <div className="price-value">${REFERENCE_PRICE_USD.toFixed(2)} USD</div>
+          <div className="price-detail">per 1 ISIOLO · reference only, not a guaranteed market peg</div>
+        </div>
 
         <div className="actions">
           <button className="primary-button" onClick={connectWallet} disabled={busy}>
