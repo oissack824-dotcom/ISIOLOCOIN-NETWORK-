@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root { color-scheme: dark; --bg: #080d0c; --panel: #101816; --text: #f3f5ef; --muted: #9daaa3; --green: #b6f36b; --line: rgba(224, 242, 228, .12); }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; }
+button, a { font: inherit; }
+.page-shell { min-height: 100vh; max-width: 1280px; margin: auto; padding: 0 7.2%; background: radial-gradient(ellipse at 50% 35%, rgba(81, 124, 54, .12), transparent 46%); }
+.topbar { height: 88px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; gap: 11px; align-items: center; color: var(--text); text-decoration: none; font: 700 14px 'Space Grotesk', sans-serif; letter-spacing: 1.2px; }
+.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; background: var(--green); color: #17220d; border-radius: 10px; font-size: 19px; }
+.brand-light { color: #98a69d; font-weight: 400; }
+.network-pill { display: flex; align-items: center; gap: 9px; color: #b6c3bb; border: 1px solid var(--line); border-radius: 99px; padding: 9px 13px; font-size: 12px; }
+.status-dot, .eyebrow span { width: 7px; height: 7px; display: inline-block; border-radius: 50%; background: var(--green); box-shadow: 0 0 13px rgba(182,243,107,.65); }
+.hero { max-width: 760px; text-align: center; margin: 108px auto 116px; }
+.eyebrow { color: var(--green); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+h1 { margin: 27px 0 21px; font: 600 clamp(48px, 7vw, 82px)/1.02 'Space Grotesk', sans-serif; letter-spacing: -5px; }
+h1 span { color: var(--green); }
+.intro { max-width: 590px; margin: 0 auto; color: var(--muted); font-size: 16px; line-height: 1.75; }
+.actions { margin: 32px 0 15px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.primary-button, .secondary-button { border-radius: 9px; padding: 14px 21px; font-weight: 700; font-size: 13px; cursor: pointer; transition: transform .18s, opacity .18s; }
+.primary-button { border: 0; background: var(--green); color: #14200c; }
+.secondary-button { border: 1px solid var(--line); background: #141c18; color: var(--text); }
+.primary-button:hover, .secondary-button:hover { transform: translateY(-2px); }
+button:disabled { cursor: wait; opacity: .65; }
+.status-message { color: var(--green); font-size: 13px; }
+.wallet-card { display: flex; justify-content: center; gap: 36px; width: fit-content; max-width: 100%; margin: 25px auto; padding: 18px 22px; border: 1px solid var(--line); border-radius: 12px; background: rgba(16, 24, 22, .9); text-align: left; overflow-wrap: anywhere; }
+.wallet-card div { display: grid; gap: 8px; }
+.wallet-card strong { font: 500 12px 'DM Sans', sans-serif; }
+.card-label { color: var(--muted); font-size: 9px; letter-spacing: 1.4px; }
+.disclaimer { color: #77847c; font-size: 11px; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding-bottom: 90px; }
+.features article { min-height: 184px; border: 1px solid var(--line); border-radius: 13px; padding: 23px; background: linear-gradient(145deg, rgba(20,29,25,.85), rgba(11,17,15,.5)); }
+.feature-index { color: var(--green); font: 500 11px 'Space Grotesk', sans-serif; }
+.features h2 { margin: 24px 0 9px; font: 500 17px 'Space Grotesk', sans-serif; }
+.features p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
+footer { display: flex; justify-content: space-between; gap: 14px; border-top: 1px solid var(--line); padding: 24px 0 30px; color: #78867d; font-size: 10px; letter-spacing: .3px; }
+@media (max-width: 700px) { .page-shell { padding: 0 5%; } .topbar { height: 72px; } .network-pill { font-size: 10px; padding: 8px 10px; } .hero { margin: 80px auto; } h1 { letter-spacing: -3px; } .features { grid-template-columns: 1fr; padding-bottom: 55px; } .features article { min-height: unset; } .features h2 { margin-top: 16px; } .wallet-card { flex-direction: column; gap: 16px; width: 100%; } footer { flex-direction: column; } }
