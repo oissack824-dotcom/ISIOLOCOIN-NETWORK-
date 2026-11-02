@@ -8,15 +8,17 @@ A clean starter for an Isiolocoin web application. “Web4” has no universally
 - Polygon network switching.
 - Multichain route-quote and transfer-status preview at `/lifi`, powered by LI.FI’s API.
 - Server-side API proxy for LI.FI network discovery, quotes, and status checks. The LI.FI key is never sent to client code.
+- A configurable $17 USD reference-price display. It is not a market feed, peg, redemption promise, or guarantee.
 - Transaction execution, approvals, token transfers, custody, and staking are intentionally not implemented.
 
-## Local development
+## Run locally
 
 Requirements: Node.js 20.9 or later and npm.
 
 ```bash
 npm install
 cp .env.example .env.local
+# For local development, set NEXT_PUBLIC_DEPLOYMENT_ENV=development in .env.local.
 npm run dev
 ```
 
@@ -24,15 +26,11 @@ Open http://localhost:3000 and the multichain preview at http://localhost:3000/l
 
 ## LI.FI development and production environments
 
-LI.FI's Routing API does **not** provide a separate sandbox base URL or supported testnet routing environment. Both development and production integrations use the same live API base (`https://li.quest/v1`) and the supported mainnet routes returned by `GET /v1/chains`. The `NEXT_PUBLIC_DEPLOYMENT_ENV` variable is an application/deployment label, not a LI.FI sandbox switch. Development quote requests therefore use live route data; this application only displays quotes and status and does not sign, approve, or submit transactions.
+The LI.FI Routing API does **not** provide a separate sandbox base URL or supported testnet routing environment. The server routes use the live API base (`https://li.quest/v1`) in every application mode and the supported mainnet routes returned by `GET /v1/chains`. `NEXT_PUBLIC_DEPLOYMENT_ENV` labels the app deployment only; it does not switch LI.FI to a sandbox. Development quote requests use live route data, but this application only displays quotes and status and does not sign, approve, or submit transactions.
 
-Use separate deployments and secrets for isolation:
+For the deployed live app, set `NEXT_PUBLIC_DEPLOYMENT_ENV=production` and `NEXT_PUBLIC_ISIOLO_PRICE_USD=17` in the hosting provider's environment configuration. Set `LI_FI_API_KEY` there as a server-side secret if required by your LI.FI account. The committed `.env.example` is only a template; it cannot configure secrets or environment variables in an external hosting provider. Never put the key in a `NEXT_PUBLIC_*` variable.
 
-- Local development: `NEXT_PUBLIC_DEPLOYMENT_ENV=development`; put an optional development API key in ignored `.env.local`.
-- Production hosting: set `NEXT_PUBLIC_DEPLOYMENT_ENV=production` in the production deployment and configure its own `LI_FI_API_KEY` as a server-side secret. Do not reuse or expose credentials unnecessarily.
-- Keep the base URL fixed to LI.FI's documented endpoint. Do not set it from browser input or an untrusted request parameter.
-
-An API key may be optional for basic calls, but can be used for account-specific access/rate limits. The server proxy sends it as `x-lifi-api-key`; the key must never be exposed in a `NEXT_PUBLIC_*` variable. If you need to test transaction execution, use a dedicated low-value wallet and explicit operational safeguards: LI.FI mainnet quotes are not a sandbox and can lead to real asset transactions if an execution layer is later added.
+For development, use a separate deployment and optional development API key. Since LI.FI has no sandbox, any quote is based on live mainnet routing data. If a transaction execution layer is ever added, testing must be explicitly controlled and could move real assets; use a dedicated low-value wallet and strict safeguards.
 
 ## Multichain quote preview
 
