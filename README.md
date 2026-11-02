@@ -2,13 +2,13 @@
 
 A clean starter for an Isiolocoin web application. “Web4” has no universally accepted technical standard, so this project uses the term as a product direction: user-controlled identity and data, interoperable on-chain services, and optional AI features that are transparent and consent-based.
 
-## What’s included
+## Included
 
-- Next.js + TypeScript web app scaffold.
-- Browser-injected wallet connection (for example, MetaMask).
-- Wallet address and network status display.
-- Polygon network switch action.
-- No private keys, seed phrases, token contracts, or transaction signing are stored in the app.
+- Next.js + TypeScript web app with read-only browser wallet connectivity.
+- Polygon network switching.
+- Multichain route-quote and transfer-status preview at `/lifi`, powered by LI.FI’s API.
+- Server-side API proxy for LI.FI network discovery, quotes, and status checks. The LI.FI key is never sent to client code.
+- Transaction execution, approvals, token transfers, custody, and staking are intentionally not implemented.
 
 ## Run locally
 
@@ -16,22 +16,25 @@ Requirements: Node.js 20.9 or later and npm.
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
-Open http://localhost:3000. Wallet features require a compatible browser wallet. The app can be viewed without one.
+Open http://localhost:3000 and the multichain preview at http://localhost:3000/lifi. You can try route discovery without a LI.FI API key; configure one only if your LI.FI account needs it. Store `LI_FI_API_KEY` as a server-side environment secret in your deployment provider. Never use a `NEXT_PUBLIC_` prefix for secrets, commit real keys, or share private keys/seed phrases.
 
-## Configuration
+## Multichain quote preview
 
-Copy `.env.example` to `.env.local` when adding integrations. Never put private keys, seed phrases, or server secrets in `NEXT_PUBLIC_*` variables. The current starter intentionally does not assume a token address or enable transfers.
+The `/lifi` page fetches supported networks through `/api/lifi/chains`, submits validated quote requests to `/api/lifi/quote`, and looks up transfers through `/api/lifi/status`. The quote interface takes token contract addresses and the source token decimals from the user; it does not assume the Isiolocoin contract address or select a token on the user's behalf. Quotes are indicative and may include changing fees, routes, or availability. Verify the output and all transaction details independently.
 
-## Roadmap before production
+The proxy filters executable transaction data from quote responses and does not execute, sign, or submit transactions. Before enabling execution, add wallet-library integration, simulate and validate transactions, handle approvals and chain changes safely, obtain independent security review, and test against provider documentation and testnets.
 
-1. Confirm the authoritative token contract address and verify its source on PolygonScan.
-2. Add read-only token balance/metadata views, with tests for incorrect networks and missing contracts.
-3. Design wallet authentication using signed, nonce-based messages; do not treat a wallet address alone as proof of session ownership.
-4. Add APIs and user-controlled data storage with explicit consent and export/deletion paths.
-5. Add AI features only behind clear disclosure and user consent; do not send wallet or personal data to external services by default.
-6. Threat-model and independently review contracts, API authorization, privacy, and transaction flows before handling assets.
+## Production checklist
 
-This scaffold is not an audit, financial product, token offering, or promise of price performance. Test changes on testnets before any production deployment.
+1. Confirm and independently verify the authoritative token contract address, chain, source, supply, and decimals.
+2. Add automated unit, integration, and end-to-end tests, plus dependency/security scanning and CI build checks.
+3. Add deployment-specific abuse controls and monitoring to API routes; use a shared rate limiter/WAF rather than relying on in-memory limits in serverless deployments.
+4. Threat-model wallet authentication, privacy, API authorization, and future transaction flows.
+5. Independently review contracts and transaction UX; test on testnets before any production asset interaction.
+6. Review legal, consumer-protection, and privacy obligations for each launch jurisdiction.
+
+This scaffold is not an audit, financial product, token offering, or promise of price performance. It has not been independently audited. Production deployments should not enable asset handling until the controls above are completed.
